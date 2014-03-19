@@ -1,19 +1,18 @@
 from PySide import QtCore, QtGui, QtUiTools
 
 
-def loadUiWidget(uifilename, parent=None):
+def load_ui_widget(ui_filename, parent=None):
     loader = QtUiTools.QUiLoader()
-    uifile = QtCore.QFile(uifilename)
-    uifile.open(QtCore.QFile.ReadOnly)
-    ui = loader.load(uifile, parent)
-    uifile.close()
+    ui_file = QtCore.QFile(ui_filename)
+    ui_file.open(QtCore.QFile.ReadOnly)
+    ui = loader.load(ui_file, parent)
+    ui_file.close()
     return ui
 
 
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    MainWindow = loadUiWidget("ui/form.ui")
-    MainWindow.cards
+    MainWindow = load_ui_widget("ui/form.ui")
     MainWindow.show()
     sys.exit(app.exec_())

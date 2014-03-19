@@ -1,9 +1,10 @@
 from poker.card import Cards
 from poker.pattern import MultiplesPattern, StraightOrFlushPattern
 
+
 def find_hand(cards):
     hands = [StraightFlush, FullHouse, FourOfAKind, Flush, Straight, 
-            ThreeOfAKind, TwoPair, OnePair]
+             ThreeOfAKind, TwoPair, OnePair]
 
     for hand in hands:
         if hand.pattern.matches_with(cards):
@@ -73,7 +74,7 @@ class StraightFlush(Hand):
             return self.high_card.suit_name() + ' Royal flush'
         else:
             return self.high_card.rank_name() + '-high ' + \
-                    self.high_card.suit_name() + ' straight flush'
+                self.high_card.suit_name() + ' straight flush'
 
 
 class FourOfAKind(Hand):
@@ -92,7 +93,7 @@ class FourOfAKind(Hand):
 
     def __repr__(self):
         return 'Four of a kind ' + self.four[0].rank_name() + \
-                's with a kicker ' + self.kickers[0].rank_name()
+            's with a kicker ' + self.kickers[0].rank_name()
 
 
 class FullHouse(Hand):
@@ -106,11 +107,11 @@ class FullHouse(Hand):
         self.triplet = cards.triplets(1)
         self.pair = cards.pairs(1)
         super(FullHouse, self).__init__(
-                cards, 6, self.triplet[0], self.pair[0])
+            cards, 6, self.triplet[0], self.pair[0])
 
     def __repr__(self):
         return 'Full house with ' + self.triplet[0].rank_name() + \
-                ' triplet and ' + self.pair[0].rank_name() + ' pair'
+            ' triplet and ' + self.pair[0].rank_name() + ' pair'
 
 
 class Flush(Hand):
@@ -161,11 +162,11 @@ class ThreeOfAKind(Hand):
         self.triplet = cards.triplets(1)
         kickers = cards.filler(2, *self.triplet)
         super(ThreeOfAKind, self).__init__(
-                cards, 3, self.triplet[0], *kickers)
+            cards, 3, self.triplet[0], *kickers)
 
     def __repr__(self):
         return 'Three of a kind ' + self.triplet[0].rank_name() + \
-                ' with kicker ' + str(self.kickers)
+            ' with kicker ' + str(self.kickers)
 
 
 class TwoPair(Hand):
@@ -179,17 +180,17 @@ class TwoPair(Hand):
         pairs = cards.pairs(2)
         self.high_pair = max(pairs)
         self.low_pair = min(pairs)
-        self.lone_card = cards.filler(1, 
-                *list(self.low_pair + self.high_pair))
+        self.lone_card = cards.filler(
+            1, *list(self.low_pair + self.high_pair))
         super(TwoPair, self).__init__(
-                cards, 2, self.high_pair[0], self.low_pair[0])
+            cards, 2, self.high_pair[0], self.low_pair[0])
         if self.lone_card is not None:
             self.kickers = self.kickers.add(self.lone_card)
 
     def __repr__(self):
         return 'Two pairs of ' + self.high_pair[0].rank_name() + 's and ' + \
-                self.low_pair[0].rank_name() + 's with a kicker ' + \
-                self.lone_card.rank_name() 
+            self.low_pair[0].rank_name() + 's with a kicker ' + \
+            self.lone_card.rank_name()
 
 
 class OnePair(Hand):
@@ -206,7 +207,7 @@ class OnePair(Hand):
 
     def __repr__(self):
         return 'Pair of ' + self.pair[0].rank_name() + 's with kicker ' + \
-                str(self.kickers)
+            str(self.kickers)
 
 
 class HighCard(Hand):
@@ -223,4 +224,4 @@ class HighCard(Hand):
 
     def __repr__(self):
         return self.high_card.rank_name() + '-high with kicker ' + \
-                str(self.kickers)
+            str(self.kickers)

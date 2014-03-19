@@ -11,12 +11,12 @@ class Table(object):
         return deepcopy(self)
 
     def add_chips(self, amount):
-        table = self._copy()
+        table = self.copy()
         table.pots[-1].add_chips(amount)
         return table
 
     def add_side(self, *excluded_players):
-        table = self._copy()
+        table = self.copy()
         table.pots = table.pots.append(Pot(*excluded_players))
         return table
     
@@ -31,7 +31,7 @@ class Pot(object):
         return deepcopy(self)
 
     def add_chips(self, amount):
-        pot = self._copy()
+        pot = self.copy()
         pot.value += amount
         return pot
     

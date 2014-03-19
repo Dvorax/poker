@@ -1,6 +1,7 @@
 from itertools import permutations
 from poker.target import targets
 
+
 def hand_probability(target):
     freq = _frequency(target)
     combos = _draw_combinations(target)
@@ -13,7 +14,7 @@ def win_probability(community, pocket, players_left):
     other_expected = _expected_score(community)
 
     return player_expected**5 / \
-            (player_expected**5 + other_expected**5 * (players_left - 1))
+        (player_expected**5 + other_expected**5 * (players_left - 1))
 
 
 def _generate_hit_miss_patterns(target, area):
@@ -24,10 +25,10 @@ def _generate_hit_miss_patterns(target, area):
         return []
 
     hits_and_misses = ['hit'] * int(hits_needed) + \
-            ['miss'] * int(yet_to_draw - hits_needed)
+        ['miss'] * int(yet_to_draw - hits_needed)
 
     patterns = list(set(
-            p for p in permutations(hits_and_misses, yet_to_draw)
+        p for p in permutations(hits_and_misses, yet_to_draw)
     ))
 
 #     for i, pattern in enumerate(patterns):
@@ -40,6 +41,7 @@ def _generate_hit_miss_patterns(target, area):
 
     # sorting here seems to keep straight probabilities from going wonky
     return sorted(patterns)
+
 
 def _pattern_frequency(target, area, pattern):
     target = target.copy()
@@ -60,13 +62,14 @@ def _pattern_frequency(target, area, pattern):
             hits_left -= 1
             # hits also affect the target area
             target = target.hit_area(area)
-        else: # miss
+        else:  # miss
             frequency *= cards_left_in_deck - target.areas[area]
             misses_left -= 1
 
         cards_left_in_deck -= 1
 
     return frequency
+
 
 def _frequency(target):
     frequency = 0
@@ -113,7 +116,7 @@ def _frequency(target):
 #             pattern_key = len(pattern)
             pattern_key = 0
             for i, hit_or_miss in enumerate(pattern):
-                if hit_or_miss == "hit":
+                if hit_or_miss == 'hit':
                     pattern_key = i + 1
             if pattern_key not in pattern_cache:
                 pattern_cache[pattern_key] = pattern_frequency
@@ -152,6 +155,7 @@ def _frequency(target):
 #  
 #     return frequency
 
+
 def _draw_combinations(target):
     # returns the number of possible ways the remaining cards can be drawn
     cards_left_in_deck = 52 - target.shots
@@ -163,14 +167,15 @@ def _draw_combinations(target):
 
     return combinations
 
+
 def _expected_score(cards):
         expected_score = 0
         hand_points = 104
         for target in targets:
             target = target().hit_with_cards(*cards)
             if len(cards) > 0:
-                expected_score += hand_probability(target) * (hand_points + 
-                        max(cards).rank_from_zero())
+                expected_score += hand_probability(target) * \
+                    (hand_points + max(cards).rank_from_zero())
             else:
                 expected_score += hand_probability(target) * hand_points
             hand_points -= 13

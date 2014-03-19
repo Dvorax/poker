@@ -4,7 +4,7 @@ from itertools import combinations, permutations
 
 
 class Target(object):
-    '''
+    """
     Each child class is based on concept of dividing the cards of a deck 
     into different areas that can satisfy the conditions for each hand. 
     This is done so the probability algorithm can focus on satisfying each 
@@ -16,7 +16,7 @@ class Target(object):
     2D 3D 4D 5D 6D 7D 8D 9D 10D JD QD KD AD
     2H 3H 4H 5H 6H 7H 8H 9H 10H JH QH KH AH
     2S 3S 4S 5S 6S 7S 8S 9S 10S JS QS KS AS
-    '''
+    """
     
     @property
     def destroyed(self):
@@ -65,11 +65,12 @@ class Target(object):
 class StraightFlushTarget(Target):
     
     def __init__(self):
-        straight_flush_keys = [(high_rank, suit) 
-                for high_rank in Card.straight_high_ranks 
-                for suit in Card.suits]
+        straight_flush_keys = \
+            [(high_rank, suit)
+             for high_rank in Card.straight_high_ranks
+             for suit in Card.suits]
         super(StraightFlushTarget, self).__init__(
-                area_keys=straight_flush_keys, initial_size=5, needed=5)
+            area_keys=straight_flush_keys, initial_size=5, needed=5)
 
     def _keys_from_cards(self, *cards):
         return [(high_rank, card.suit) for card in cards
@@ -82,7 +83,7 @@ class FourOfAKindTarget(Target):
 
     def __init__(self):
         super(FourOfAKindTarget, self).__init__(
-                area_keys=Card.ranks, initial_size=4, needed=4)
+            area_keys=Card.ranks, initial_size=4, needed=4)
 
     def _keys_from_cards(self, *cards):
         return [card.rank for card in cards]
@@ -94,7 +95,7 @@ class FullHouseTarget(Target):
     def __init__(self):
         full_house_keys = [(a, b) for a, b in permutations(Card.ranks, 2)]
         super(FullHouseTarget, self).__init__(
-                area_keys=full_house_keys, initial_size=8, needed=5)
+            area_keys=full_house_keys, initial_size=8, needed=5)
 
     def _keys_from_cards(self, *cards):
         return None
@@ -104,7 +105,7 @@ class FlushTarget(Target):
 
     def __init__(self):
         super(FlushTarget, self).__init__(
-                area_keys=Card.suits, initial_size=13, needed=5)
+            area_keys=Card.suits, initial_size=13, needed=5)
 
     def _keys_from_cards(self, *cards):
         return [card.suit for card in cards]
@@ -113,8 +114,9 @@ class FlushTarget(Target):
 class StraightTarget(Target):
 
     def __init__(self):
-        super(StraightTarget, self).__init__(initial_size=20, needed=5, 
-                area_keys=Card.straight_high_ranks, hit_decrement=4)
+        super(StraightTarget, self).__init__(
+            initial_size=20, needed=5, hit_decrement=4,
+            area_keys=Card.straight_high_ranks)
 
     def _keys_from_cards(self, *cards):
         return [high_rank for card in cards
@@ -143,7 +145,7 @@ class ThreeOfAKindTarget(Target):
 
     def __init__(self):
         super(ThreeOfAKindTarget, self).__init__(
-                area_keys=Card.ranks, initial_size=4, needed=3)
+            area_keys=Card.ranks, initial_size=4, needed=3)
 
     def _keys_from_cards(self, *cards):
         return [card.rank for card in cards]
@@ -155,7 +157,7 @@ class TwoPairTarget(Target):
     def __init__(self):
         two_pair_keys = [(a, b) for a, b in combinations(Card.ranks, 2)]
         super(TwoPairTarget, self).__init__(
-                area_keys=two_pair_keys, initial_size=8, needed=4)
+            area_keys=two_pair_keys, initial_size=8, needed=4)
 
         self.rank_areas = dict((rank, self.initial_size) for rank in Card.ranks)
 
@@ -195,21 +197,22 @@ class PairTarget(Target):
 
     def __init__(self):
         super(PairTarget, self).__init__(
-                area_keys=Card.ranks, initial_size=4, needed=2)
+            area_keys=Card.ranks, initial_size=4, needed=2)
 
     def _keys_from_cards(self, *cards):
         return [card.rank for card in cards]
 
 
 targets = [StraightFlushTarget, FourOfAKindTarget, 
-        FlushTarget, StraightTarget, ThreeOfAKindTarget, 
-        TwoPairTarget, PairTarget] #FullHouseTarget, , 
+           FlushTarget, StraightTarget, ThreeOfAKindTarget,
+           TwoPairTarget, PairTarget]  # FullHouseTarget, ,
+
 
 def _combination_area_keys(area):
     area_keys = []
     for rank in Card.ranks:
         if area < rank:
-            area_keys.append((area,rank))
+            area_keys.append((area, rank))
         elif rank < area:
-            area_keys.append((rank,area))
+            area_keys.append((rank, area))
     return area_keys

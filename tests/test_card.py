@@ -33,19 +33,19 @@ class CardTest(unittest.TestCase):
     
     #maybe belongs in a different test class
     def test_straights_by_high_rank(self):
-        self.assertEqual(straights_by_high_rank(2), [5,6])
-        self.assertEqual(straights_by_high_rank(3), [5,6,7])
-        self.assertEqual(straights_by_high_rank(4), [5,6,7,8])
-        self.assertEqual(straights_by_high_rank(5), [5,6,7,8,9])
-        self.assertEqual(straights_by_high_rank(6), [6,7,8,9,10])
-        self.assertEqual(straights_by_high_rank(7), [7,8,9,10,11])
-        self.assertEqual(straights_by_high_rank(8), [8,9,10,11,12])
-        self.assertEqual(straights_by_high_rank(9), [9,10,11,12,13])
-        self.assertEqual(straights_by_high_rank(10), [10,11,12,13,14])
-        self.assertEqual(straights_by_high_rank(11), [11,12,13,14])
-        self.assertEqual(straights_by_high_rank(12), [12,13,14])
-        self.assertEqual(straights_by_high_rank(13), [13,14])
-        self.assertEqual(straights_by_high_rank(14), [5,14])
+        self.assertEqual(straights_by_high_rank(2), [5, 6])
+        self.assertEqual(straights_by_high_rank(3), [5, 6, 7])
+        self.assertEqual(straights_by_high_rank(4), [5, 6, 7, 8])
+        self.assertEqual(straights_by_high_rank(5), [5, 6, 7, 8, 9])
+        self.assertEqual(straights_by_high_rank(6), [6, 7, 8, 9, 10])
+        self.assertEqual(straights_by_high_rank(7), [7, 8, 9, 10, 11])
+        self.assertEqual(straights_by_high_rank(8), [8, 9, 10, 11, 12])
+        self.assertEqual(straights_by_high_rank(9), [9, 10, 11, 12, 13])
+        self.assertEqual(straights_by_high_rank(10), [10, 11, 12, 13, 14])
+        self.assertEqual(straights_by_high_rank(11), [11, 12, 13, 14])
+        self.assertEqual(straights_by_high_rank(12), [12, 13, 14])
+        self.assertEqual(straights_by_high_rank(13), [13, 14])
+        self.assertEqual(straights_by_high_rank(14), [5, 14])
 
     def test_bad_inputs(self):
         self.assertRaises(CardError, Card, 100, 100)
@@ -94,11 +94,11 @@ class CardsTest(unittest.TestCase):
 
     def test_ranks_represented(self):
         self.cards = self.cards.add(Card(2, 1))
-        self.assertEqual(self.cards.ranks_represented(), {2,3,4})
+        self.assertEqual(self.cards.ranks_represented(), {2, 3, 4})
     
     def test_suits_represented(self):
         self.cards = self.cards.add(Card(2, 1))
-        self.assertEqual(self.cards.suits_represented(), {0,1,2})
+        self.assertEqual(self.cards.suits_represented(), {0, 1, 2})
     
     def test_multiples(self):
         pass
@@ -111,20 +111,20 @@ class CardsTest(unittest.TestCase):
         self.assertEqual(len(cards2.singlets()), 0)
     
     def test_pairs(self):
-        cards1 = Cards(Card(2,0), Card(2,1))
-        cards2 = Cards(Card(2,0), Card(2,1), Card(2,2))
-        cards3 = Cards(Card(2,0), Card(2,1), Card(3,0), Card(3,1))
+        cards1 = Cards(Card(2, 0), Card(2, 1))
+        cards2 = Cards(Card(2, 0), Card(2, 1), Card(2, 2))
+        cards3 = Cards(Card(2, 0), Card(2, 1), Card(3, 0), Card(3, 1))
         self.assertEqual(len(self.cards.pairs()), 0)
         self.assertEqual(len(cards1.pairs()), 1)
         self.assertEqual(len(cards2.pairs()), 0)
         self.assertEqual(len(cards3.pairs()), 2)
     
     def test_triplets(self):
-        cards1 = Cards(Card(2,0), Card(2,1))
-        cards2 = Cards(Card(2,0), Card(2,1), Card(2,2))
-        cards3 = Cards(Card(2,0), Card(2,1), Card(2,2), Card(2,3))
-        cards4 = Cards(Card(2,0), Card(2,1), Card(2,2), 
-                Card(3,0), Card(3,1), Card(3,2))
+        cards1 = Cards(Card(2, 0), Card(2, 1))
+        cards2 = Cards(Card(2, 0), Card(2, 1), Card(2, 2))
+        cards3 = Cards(Card(2, 0), Card(2, 1), Card(2, 2), Card(2, 3))
+        cards4 = Cards(
+            Card(2, 0), Card(2, 1), Card(2, 2), Card(3, 0), Card(3, 1), Card(3, 2))
         self.assertEqual(len(self.cards.triplets()), 0)
         self.assertEqual(len(cards1.triplets()), 0)
         self.assertEqual(len(cards2.triplets()), 1)
@@ -132,27 +132,27 @@ class CardsTest(unittest.TestCase):
         self.assertEqual(len(cards4.triplets()), 2)
     
     def test_quadruplets(self):
-        cards1 = Cards(Card(2,0), Card(2,1), Card(2,2))
-        cards2 = Cards(Card(2,0), Card(2,1), Card(2,2), Card(2,3))
+        cards1 = Cards(Card(2, 0), Card(2, 1), Card(2, 2))
+        cards2 = Cards(Card(2, 0), Card(2, 1), Card(2, 2), Card(2, 3))
         self.assertEqual(len(cards1.quadruplets()), 0)
         self.assertEqual(len(cards2.quadruplets()), 1)
     
     def test_flush(self):
-        cards1 = Cards(Card(2,1),Card(4,1),Card(6,1),Card(9,1),Card(10,1))
-        cards2 = Cards(Card(2,1),Card(4,1),Card(6,1),Card(9,1))
+        cards1 = Cards(Card(2, 1), Card(4, 1), Card(6, 1), Card(9, 1), Card(10, 1))
+        cards2 = Cards(Card(2, 1), Card(4, 1), Card(6, 1), Card(9, 1))
         self.assertEqual(len(cards1.flush()), 5)
         self.assertEqual(len(cards2.flush()), 4)
     
     def test_straight(self):
-        cards1 = Cards(Card(2,3),Card(3,0),Card(4,2),Card(5,3),Card(6,2))
-        cards2 = Cards(Card(2,3),Card(3,0),Card(4,2),Card(5,3))
-        cards3 = Cards(Card(2,3),Card(3,0),Card(4,2),Card(5,3),Card(14,0))
+        cards1 = Cards(Card(2, 3), Card(3, 0), Card(4, 2), Card(5, 3), Card(6, 2))
+        cards2 = Cards(Card(2, 3), Card(3, 0), Card(4, 2), Card(5, 3))
+        cards3 = Cards(Card(2, 3), Card(3, 0), Card(4, 2), Card(5, 3), Card(14, 0))
         self.assertEqual(len(cards1.straight()), 5)
         self.assertEqual(len(cards2.straight()), 4)
         self.assertEqual(len(cards3.straight()), 5)
 
     def test_kicker_value(self):
-        cards = Cards(Card(8, 1),Card(6, 1),Card(4, 1),Card(2, 3))
+        cards = Cards(Card(8, 1), Card(6, 1), Card(4, 1), Card(2, 3))
         self.assertEqual(cards.kicker_value(), 0.48611743286299497)
 
 
@@ -167,7 +167,7 @@ class DeckTest(unittest.TestCase):
     def test_shuffle(self):
         pass
     
-    def test_draw_Card(self):
+    def test_draw_card(self):
         pass
     
     def test_add(self):

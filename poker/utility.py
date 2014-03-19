@@ -1,5 +1,6 @@
 import locale
 
+
 class Collection(object):
 
     def __init__(self, *items):
@@ -15,7 +16,7 @@ class Collection(object):
                 collection.items.append(item)
             else:
                 raise CollectionError(
-                        'Duplicate item already exists in collection')
+                    'Duplicate item already exists in collection')
         return collection
 
     def remove(self, *items):
@@ -25,11 +26,11 @@ class Collection(object):
                 collection.items.remove(item)
             else:
                 raise CollectionError(
-                        'Item not available to be removed in collection')
+                    'Item not available to be removed in collection')
         return collection
 
     def limit(self, amount):
-        if amount > 1 and len(self) >= amount:
+        if 1 < amount <= len(self):
             result = self.__class__(*sorted(self)[-amount:])
         elif amount > 1 and len(self) < amount:
             result = self._copy()
@@ -56,7 +57,7 @@ class Collection(object):
 
     def __eq__(self, other):
         return type(other) is self.__class__ and \
-                sorted(self.items) == sorted(other.items)
+            sorted(self.items) == sorted(other.items)
 
     def __le__(self, other):
         return sorted(self.items) <= sorted(other.items)
@@ -66,7 +67,7 @@ class Collection(object):
 
     def __ne__(self, other):
         return type(other) is self.__class__ and \
-                sorted(self.items) != sorted(other.items)
+            sorted(self.items) != sorted(other.items)
 
     def __getitem__(self, key):
         return self.items[key]

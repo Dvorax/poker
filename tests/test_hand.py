@@ -1,6 +1,8 @@
 import unittest
 from poker.card import Card, Cards
-from poker.hand import HighCard, OnePair, TwoPair, ThreeOfAKind, Straight, Flush, FullHouse, FourOfAKind, StraightFlush, HandError
+from poker.hand import HighCard, OnePair, TwoPair, ThreeOfAKind, Straight, \
+    Flush, FullHouse, FourOfAKind, StraightFlush, HandError
+
 
 class HandModuleTest(unittest.TestCase):
 
@@ -11,17 +13,33 @@ class HandModuleTest(unittest.TestCase):
 class HandClassTest(unittest.TestCase):
 
     def setUp(self):
-        self.straight_flush = Cards(Card(6,0),Card(7,0),Card(8,0),Card(9,0),Card(10,0),Card(8,1),Card(13,2))
-        self.four_of_a_kind = Cards(Card(9,1),Card(9,2),Card(9,0),Card(9,3),Card(7,1),Card(4,3),Card(2,0))
+        self.straight_flush = Cards(
+            Card(6, 0), Card(7, 0), Card(8, 0), Card(9, 0), Card(10, 0),
+            Card(8, 1), Card(13, 2))
+        self.four_of_a_kind = Cards(
+            Card(9, 1), Card(9, 2), Card(9, 0), Card(9, 3), Card(7, 1),
+            Card(4, 3), Card(2, 0))
         self.full_house = Cards(
-                Card(10,1),Card(10,0),Card(10,2),Card(7,0),Card(7,1),Card(4,3),Card(4,2))
-        self.flush = Cards(Card(2,1),Card(4,1),Card(6,1),Card(9,1),Card(10,1),Card(7,3),Card(4,2))
+            Card(10, 1), Card(10, 0), Card(10, 2), Card(7, 0), Card(7, 1),
+            Card(4, 3), Card(4, 2))
+        self.flush = Cards(
+            Card(2, 1), Card(4, 1), Card(6, 1), Card(9, 1), Card(10, 1),
+            Card(7, 3), Card(4, 2))
         self.straight = Cards(
-                Card(2,3),Card(3,0),Card(4,2),Card(5,3),Card(6,2),Card(3,2),Card(2,0))
-        self.three_of_a_kind = Cards(Card(9,1),Card(9,0),Card(9,3),Card(7,3),Card(14,1),Card(5,1),Card(3,2))
-        self.two_pair = Cards(Card(10,0),Card(10,1),Card(2,1),Card(2,3),Card(8,3),Card(9,1),Card(4,2))
-        self.one_pair = Cards(Card(5,3),Card(5,0),Card(9,1),Card(6,3),Card(8,2),Card(4,2),Card(2,0))
-        self.high_card = Cards(Card(10,0),Card(8,1),Card(6,1),Card(4,1),Card(2,3),Card(3,2),Card(7,3))
+            Card(2, 3), Card(3, 0), Card(4, 2), Card(5, 3), Card(6, 2),
+            Card(3, 2), Card(2, 0))
+        self.three_of_a_kind = Cards(
+            Card(9, 1), Card(9, 0), Card(9, 3), Card(7, 3), Card(14, 1),
+            Card(5, 1), Card(3, 2))
+        self.two_pair = Cards(
+            Card(10, 0), Card(10, 1), Card(2, 1), Card(2, 3), Card(8, 3),
+            Card(9, 1), Card(4, 2))
+        self.one_pair = Cards(
+            Card(5, 3), Card(5, 0), Card(9, 1), Card(6, 3), Card(8, 2),
+            Card(4, 2), Card(2, 0))
+        self.high_card = Cards(
+            Card(10, 0), Card(8, 1), Card(6, 1), Card(4, 1), Card(2, 3),
+            Card(3, 2), Card(7, 3))
 
     def test_find(self):
         pass
@@ -30,7 +48,8 @@ class HandClassTest(unittest.TestCase):
 class HighCardTest(unittest.TestCase):
 
     def setUp(self):
-        cards = Cards(Card(10, 0),Card(8, 1),Card(6, 1),Card(4, 1),Card(2, 3))
+        cards = Cards(Card(10, 0), Card(8, 1), Card(6, 1), Card(4, 1),
+                      Card(2, 3))
         self.hand = HighCard(cards)
     
     def test_creation(self):
@@ -45,8 +64,10 @@ class HighCardTest(unittest.TestCase):
 class OnePairTest(unittest.TestCase):
 
     def setUp(self):
-        cards = Cards(Card(5, 3),Card(5, 0),Card(9, 1),Card(6, 3),Card(8, 2))
-        self.bad = Cards(Card(10, 0),Card(8, 1),Card(6, 1),Card(4, 1),Card(2, 3))
+        cards = Cards(Card(5, 3), Card(5, 0), Card(9, 1), Card(6, 3),
+                      Card(8, 2))
+        self.bad = Cards(Card(10, 0), Card(8, 1), Card(6, 1), Card(4, 1),
+                         Card(2, 3))
         self.hand = OnePair(cards)
     
     def test_creation(self):
@@ -62,8 +83,10 @@ class OnePairTest(unittest.TestCase):
 class TwoPairTest(unittest.TestCase):
 
     def setUp(self):
-        cards = Cards(Card(10, 0),Card(10, 1),Card(2, 1),Card(2, 3),Card(8, 3))
-        self.bad = Cards(Card(5, 3),Card(5, 0),Card(9, 1),Card(6, 3),Card(8, 2))
+        cards = Cards(Card(10, 0), Card(10, 1), Card(2, 1), Card(2, 3),
+                      Card(8, 3))
+        self.bad = Cards(Card(5, 3), Card(5, 0), Card(9, 1), Card(6, 3),
+                         Card(8, 2))
         self.hand = TwoPair(cards)
     
     def test_creation(self):
@@ -79,8 +102,8 @@ class TwoPairTest(unittest.TestCase):
 class ThreeOfAKindTest(unittest.TestCase):
 
     def setUp(self):
-        cards = Cards(Card(9,1),Card(9,0),Card(9,3),Card(7,3),Card(14,1))
-        self.bad = Cards(Card(10,0),Card(10,1),Card(2,1),Card(2,3),Card(8,3))
+        cards = Cards(Card(9, 1), Card(9, 0), Card(9, 3), Card(7, 3), Card(14, 1))
+        self.bad = Cards(Card(10, 0), Card(10, 1), Card(2, 1), Card(2, 3), Card(8, 3))
         self.hand = ThreeOfAKind(cards)
     
     def test_creation(self):
@@ -96,9 +119,9 @@ class ThreeOfAKindTest(unittest.TestCase):
 class StraightTest(unittest.TestCase):
 
     def setUp(self):
-        cards = Cards(Card(2,3),Card(3,0),Card(4,2),Card(5,3),Card(6,2))
-        low_ace = Cards(Card(14,0),Card(2,1),Card(3,2),Card(4,3),Card(5,0))
-        self.bad = Cards(Card(9,1),Card(9,0),Card(9,3),Card(7,3),Card(14,1))
+        cards = Cards(Card(2, 3), Card(3, 0), Card(4, 2), Card(5, 3), Card(6, 2))
+        low_ace = Cards(Card(14, 0), Card(2, 1), Card(3, 2), Card(4, 3), Card(5, 0))
+        self.bad = Cards(Card(9, 1), Card(9, 0), Card(9, 3), Card(7, 3), Card(14, 1))
         self.hand = Straight(cards)
         self.low_ace_hand = Straight(low_ace)
     
@@ -116,8 +139,8 @@ class StraightTest(unittest.TestCase):
 class FlushTest(unittest.TestCase):
 
     def setUp(self):
-        cards = Cards(Card(2,1),Card(4,1),Card(6,1),Card(9,1),Card(10,1))
-        self.bad = Cards(Card(2,3),Card(3,0),Card(4,2),Card(5,3),Card(6,2))
+        cards = Cards(Card(2, 1), Card(4, 1), Card(6, 1), Card(9, 1), Card(10, 1))
+        self.bad = Cards(Card(2, 3), Card(3, 0), Card(4, 2), Card(5, 3), Card(6, 2))
         self.hand = Flush(cards)
     
     def test_creation(self):
@@ -133,8 +156,8 @@ class FlushTest(unittest.TestCase):
 class FullHouseTest(unittest.TestCase):
 
     def setUp(self):
-        cards = Cards(Card(10,1),Card(10,0),Card(10,2),Card(7,0),Card(7,1))
-        self.bad = Cards(Card(2,1),Card(4,1),Card(6,1),Card(9,1),Card(10,1))
+        cards = Cards(Card(10, 1), Card(10, 0), Card(10, 2), Card(7, 0), Card(7, 1))
+        self.bad = Cards(Card(2, 1), Card(4, 1), Card(6, 1), Card(9, 1), Card(10, 1))
         self.hand = FullHouse(cards)
     
     def test_creation(self):
@@ -150,8 +173,8 @@ class FullHouseTest(unittest.TestCase):
 class FourOfAKindTest(unittest.TestCase):
 
     def setUp(self):
-        cards = Cards(Card(9,1),Card(9,2),Card(9,0),Card(9,3),Card(7,1))
-        self.bad = Cards(Card(10,1),Card(10,0),Card(10,2),Card(7,0),Card(7,1))
+        cards = Cards(Card(9, 1), Card(9, 2), Card(9, 0), Card(9, 3), Card(7, 1))
+        self.bad = Cards(Card(10, 1), Card(10, 0), Card(10, 2), Card(7, 0), Card(7, 1))
         self.hand = FourOfAKind(cards)
     
     def test_creation(self):
@@ -167,9 +190,9 @@ class FourOfAKindTest(unittest.TestCase):
 class StraightFlushTest(unittest.TestCase):
 
     def setUp(self):
-        cards = Cards(Card(6,0),Card(7,0),Card(8,0),Card(9,0),Card(10,0))
-        low_ace = Cards(Card(14,0),Card(2,0),Card(3,0),Card(4,0),Card(5,0))
-        self.bad = Cards(Card(9,1),Card(9,2),Card(9,0),Card(9,3),Card(7,1))
+        cards = Cards(Card(6, 0), Card(7, 0), Card(8, 0), Card(9, 0), Card(10, 0))
+        low_ace = Cards(Card(14, 0), Card(2, 0), Card(3, 0), Card(4, 0), Card(5, 0))
+        self.bad = Cards(Card(9, 1), Card(9, 2), Card(9, 0), Card(9, 3), Card(7, 1))
         self.hand = StraightFlush(cards)
         self.low_ace_hand = StraightFlush(low_ace)
     
@@ -188,13 +211,13 @@ class HandComparisonsTest(unittest.TestCase):
 
     def setUp(self):
         self.straight = Straight(Cards(
-                Card(2,3), Card(3,0), Card(4,2),Card(5,3), Card(6,2)))
+            Card(2, 3), Card(3, 0), Card(4, 2), Card(5, 3), Card(6, 2)))
         self.straight2 = Straight(Cards(
-                Card(2,0), Card(3,1), Card(4,3),Card(5,0), Card(6,3)))
+            Card(2, 0), Card(3, 1), Card(4, 3), Card(5, 0), Card(6, 3)))
         self.flush = Flush(Cards(
-                Card(2,1), Card(4,1), Card(6,1), Card(9,1), Card(10,1)))
+            Card(2, 1), Card(4, 1), Card(6, 1), Card(9, 1), Card(10, 1)))
         self.flush2 = Flush(Cards(
-                Card(5,1), Card(4,1), Card(6,1), Card(9,1), Card(10,1)))
+            Card(5, 1), Card(4, 1), Card(6, 1), Card(9, 1), Card(10, 1)))
     
     def test_less_than_and_greater_than(self):
         self.assertTrue(self.straight < self.flush)

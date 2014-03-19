@@ -7,14 +7,14 @@ class MultiplesPatternsTest(unittest.TestCase):
 
     def setUp(self):
         self.no_cards = Cards()
-        self.one_card = Cards(Card(2,0))
-        self.no_pair = Cards(Card(2,0), Card(3,1))
-        self.one_pair = Cards(Card(2,0), Card(2,1), Card(3,0))
-        self.two_pair = Cards(Card(2,0), Card(2,1), Card(3,0), Card(3,2))
-        self.triplet = Cards(Card(2,0), Card(2,1), Card(2,2))
+        self.one_card = Cards(Card(2, 0))
+        self.no_pair = Cards(Card(2, 0), Card(3, 1))
+        self.one_pair = Cards(Card(2, 0), Card(2, 1), Card(3, 0))
+        self.two_pair = Cards(Card(2, 0), Card(2, 1), Card(3, 0), Card(3, 2))
+        self.triplet = Cards(Card(2, 0), Card(2, 1), Card(2, 2))
         self.full_house = Cards(
-                Card(2,0), Card(2,1), Card(2,2), Card(3,0), Card(3,1))
-        self.quadruplet = Cards(Card(2,0), Card(2,1), Card(2,2), Card(2,3))
+            Card(2, 0), Card(2, 1), Card(2, 2), Card(3, 0), Card(3, 1))
+        self.quadruplet = Cards(Card(2, 0), Card(2, 1), Card(2, 2), Card(2, 3))
     
     def test_is_satisfied_by(self):
         pattern = MultiplesPattern(2, 2)
@@ -72,12 +72,12 @@ class StraightOrFlushPatternsTest(unittest.TestCase):
 
     def setUp(self):
         self.straight = Cards(
-                Card(2,3), Card(3,0), Card(4,2), Card(5,3), Card(6,2))
-        self.flush = Cards(Card(2,1),Card(4,1),Card(6,1),Card(9,1),Card(10,1))
-        self.both = Cards(Card(6,0),Card(7,0),Card(8,0),Card(9,0),Card(10,0))
-        self.part_straight = Cards(Card(2,3), Card(3,0), Card(4,2), Card(5,3))
-        self.part_flush = Cards(Card(2,1),Card(4,1),Card(6,1))
-        self.part_both = Cards(Card(6,0),Card(7,0))
+            Card(2, 3), Card(3, 0), Card(4, 2), Card(5, 3), Card(6, 2))
+        self.flush = Cards(Card(2, 1), Card(4, 1), Card(6, 1), Card(9, 1), Card(10, 1))
+        self.both = Cards(Card(6, 0), Card(7, 0), Card(8, 0), Card(9, 0), Card(10, 0))
+        self.part_straight = Cards(Card(2, 3), Card(3, 0), Card(4, 2), Card(5, 3))
+        self.part_flush = Cards(Card(2, 1), Card(4, 1), Card(6, 1))
+        self.part_both = Cards(Card(6, 0), Card(7, 0))
 
     def test_is_satisfied_by(self):
         pattern = StraightOrFlushPattern(straight=True)

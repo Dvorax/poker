@@ -12,8 +12,8 @@ class MultiplesPattern(Pattern):
     def __init__(self, *lengths):
         if len(lengths) == 0:
             raise PatternError(
-                    'Pattern must have declaration for lengths of \
-                    multiples')
+                'Pattern must have declaration for lengths of \
+                multiples')
         self.lengths = list(lengths)
 
     def distance(self, cards):
@@ -34,12 +34,13 @@ class MultiplesPattern(Pattern):
 
         return distance
 
+
 class StraightOrFlushPattern(Pattern):
 
     def __init__(self, straight=False, flush=False):
         if not (straight or flush):
             raise PatternError(
-                    'Pattern must be declared straight and/or flush')
+                'Pattern must be declared straight and/or flush')
         self.straight = straight
         self.flush = flush
 
@@ -53,8 +54,11 @@ class StraightOrFlushPattern(Pattern):
             hand = flush_cards
         elif self.straight:
             hand = straight_cards
+        else:
+            hand = []
 
         return 5 - len(hand)
+
 
 class PatternError(Exception):
     pass

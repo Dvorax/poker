@@ -1,8 +1,9 @@
 import unittest
 # from poker.card import Card
 from poker.target import StraightFlushTarget, FourOfAKindTarget, \
-        FullHouseTarget, FlushTarget, StraightTarget, ThreeOfAKindTarget, \
-        TwoPairTarget, PairTarget
+    FullHouseTarget, FlushTarget, StraightTarget, ThreeOfAKindTarget, \
+    TwoPairTarget, PairTarget
+
 
 class TargetsTest(unittest.TestCase):
 
