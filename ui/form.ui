@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTableWidget" name="cards"/>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="hands">
+      <property name="currentIndex">
+       <number>7</number>
+      </property>
+      <widget class="QWidget" name="pair">
+       <attribute name="title">
+        <string>Pair</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2"/>
+      </widget>
+      <widget class="QWidget" name="two_pair">
+       <attribute name="title">
+        <string>Two Pair</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="three_kind">
+       <attribute name="title">
+        <string>Three of a Kind</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="straight">
+       <attribute name="title">
+        <string>Straight</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="flush">
+       <attribute name="title">
+        <string>Flush</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_4">
+       <attribute name="title">
+        <string>Full House</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Four of a Kind</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_5">
+       <attribute name="title">
+        <string>Straight Flush</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
