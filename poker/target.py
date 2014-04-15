@@ -50,13 +50,18 @@ class Target(object):
         return target
 
     def area_distance(self, area_key):
-        return self.areas[area_key] + self.needed - self.initial_size 
+        return self.area_satisfies(area_key) + self.needed - self.initial_size
 
     def area_hits(self, area_key):
-        return self.initial_size - self.areas[area_key]
+        return self.initial_size - self.area_satisfies(area_key)
 
     def area_misses(self, area_key):
         return self.shots - self.area_hits(area_key)
+
+    def area_satisfies(self, area_key):
+        # Returns the number of cards that can be hit in the area that
+        # contribute to satisfying the target.
+        return self.areas[area_key]
 
     def _keys_from_cards(self, *cards):
         pass
@@ -159,33 +164,35 @@ class TwoPairTarget(Target):
         super(TwoPairTarget, self).__init__(
             area_keys=two_pair_keys, initial_size=8, needed=4)
 
-        self.rank_areas = dict((rank, self.initial_size) for rank in Card.ranks)
+        # The .areas dictionary has no meaning in TwoPairTarget except as
+        # a storage mechanism for the area keys. The keys are still useful
+        # because they specify the areas that can be satisfied which would
+        # satisfy the target as a whole. The dictionary value, which
+        # represents the number of cards contained in an area that contribute
+        # to satisfying a target, is impossible to maintain since the
+        # combination key is missing knowledge of the actual rank that was hit.
 
-    def hit_area(self, *rank_area_keys):
+        # The values in this dictionary are used instead of the .areas values.
+        self.rank_areas = dict((rank, 4) for rank in Card.ranks)
+
+    def hit_area(self, *ranks):
+        # This function is not meant to take area_keys as parameters like in
+        # its parent and many of its sibling implementations. It affects the
+        # rank_areas dictionary instead of the areas dictionary.
         target = self.copy()
-        for area in rank_area_keys:
-            # apply hit to target.areas
-            combination_area_keys = _combination_area_keys(area)
-            for combo in combination_area_keys:
-                target.areas[combo] -= self.hit_decrement
-
-            # apply hit to target.rank_areas
-            target.rank_areas[area] -= self.hit_decrement
-
-            # book keeping
-            target.shots += 1
-
+        for rank in ranks:
+            target.rank_areas[rank] -= self.hit_decrement
         return target
 
-    def area_hits(self, area_keys):
-        hits = 0
-        for area in area_keys:
-            if self.rank_areas[area] > 2:
-                hits += 4 - self.rank_areas[area]
-            else:
-                hits += 2
-
-        return hits
+    def area_satisfies(self, area_key):
+        # When we get a pair in any rank area, we can ignore the rest of the
+        # cards in that rank area.
+        result = 0
+        for rank in area_key:
+            size = self.rank_areas[rank]
+            if size > 2:
+                result += size
+        return result
 
     def _keys_from_cards(self, *cards):
         return [card.rank for card in cards]
@@ -208,11 +215,12 @@ targets = [StraightFlushTarget, FourOfAKindTarget,
            TwoPairTarget, PairTarget]  # FullHouseTarget, ,
 
 
-def _combination_area_keys(area):
+def _combination_area_keys(rank):
     area_keys = []
-    for rank in Card.ranks:
-        if area < rank:
-            area_keys.append((area, rank))
-        elif rank < area:
-            area_keys.append((rank, area))
+    for other_rank in Card.ranks:
+        # do not append anything if ranks are equal
+        if rank < other_rank:
+            area_keys.append((rank, other_rank))
+        elif rank > other_rank:
+            area_keys.append((other_rank, rank))
     return area_keys

@@ -196,17 +196,32 @@ class Deck(Cards):
             cards = [Card(rank, suit) for suit in Card.suits
                      for rank in Card.ranks]
         super(Deck, self).__init__(*cards)
+        self.discard = []
 
     def shuffle(self):
         result = self._copy()
         random.shuffle(result.items)
         return result
 
-    def draw_card(self):
+    def draw_random(self):
         if len(self.items) > 0:
-            return random.choice(self.items)
+            card = random.choice(self.items)
+            self.draw_card(card)
+            return card
         else:
             raise CardError('Cannot draw cards from an empty deck')
+
+    def draw_card(self, card):
+        if card in self.items:
+            self.discard.append(card)
+            self.items.remove(card)
+        else:
+            raise CardError('Card not in deck')
+
+    def _copy(self):
+        copy = super(Deck, self)._copy()
+        copy.discard = list(self.discard)
+        return copy
 
 
 class CardError(Exception):

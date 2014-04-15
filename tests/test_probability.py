@@ -89,8 +89,7 @@ class ProbabilitySatisfiedTest(unittest.TestCase):
         self.assertEqual(hand_probability(target), 1.0)
     
     def test_two_pair(self):
-        # note: hit_area call with multiple values gives error
-        target = self.two_pair.hit_area(2).hit_area(2).hit_area(3).hit_area(3)
+        target = self.two_pair.hit_area(2, 2, 3, 3)
         self.assertEqual(hand_probability(target), 1.0)
         
         
@@ -110,8 +109,7 @@ class ProbabilityOneDrawTest(unittest.TestCase):
         self.pair = PairTarget()
     
     def test_two_pair(self):
-        # note: hit area call with multiple values gives error
-        target = self.two_pair.hit_area(2).hit_area(2).hit_area(3).hit_area(4).hit_area(5).hit_area(6)
+        target = self.two_pair.hit_area(2, 2, 3, 4, 5, 6)
         self.assertEqual(hand_probability(target), 12 / self.total)
     
     def test_pair(self):
@@ -123,7 +121,7 @@ class ProbabilityOneDrawTest(unittest.TestCase):
         self.assertEqual(hand_probability(target), 6 / self.total)
     
     def test_straight(self):
-        target = self.straight.hit_area(5, 5, 5, 5, 6, 6)
+        target = self.straight.hit_area(5, 5, 5, 5, 13, 13)
         self.assertEqual(hand_probability(target), 4 / self.total)
         
     def test_flush(self):
@@ -142,6 +140,11 @@ class ProbabilityOneDrawTest(unittest.TestCase):
 class ProbabilityTwoDrawTest(unittest.TestCase):
 
     # testing the probability of hands with one draw left
+
+    # The values that are compared to the hand_probability result are
+    # expected values calculated by myself. I don't have another way of
+    # verifying that the result is correct and this method is only effective
+    # to the point that things fall in line with expectations.
     
     def setUp(self):
         self.total = 1.0 * 47 * 46  # 2162.0
@@ -155,30 +158,35 @@ class ProbabilityTwoDrawTest(unittest.TestCase):
         self.pair = PairTarget()
     
     def test_two_pair(self):
-        # note: hit area call with multiple values gives error
-        target = self.two_pair.hit_area(2).hit_area(2).hit_area(3).hit_area(4).hit_area(5)
-        self.assertEqual(hand_probability(target), 12 / self.total)
+        # hit 3/4/5; miss, hit 3/4/5; hit 6-14, hit same rank
+        target = self.two_pair.hit_area(2, 2, 3, 4, 5)
+        self.assertEqual(hand_probability(target), 918 / self.total)
     
     def test_pair(self):
-        target = self.pair.hit_area(2, 3, 4, 5, 6) 
-        self.assertEqual(hand_probability(target), 512 / self.total)
+        # hit 2-6; miss, hit 2-6; hit 7-14, hit same rank
+        target = self.pair.hit_area(2, 3, 4, 5, 6)
+        self.assertEqual(hand_probability(target), 1446 / self.total)
 
     def test_three_of_a_kind(self):
+        # hit 2/3; miss, hit 2/3; hit 4, hit 4
         target = self.three_kind.hit_area(2, 2, 3, 3, 4)
-        self.assertEqual(hand_probability(target), 6 / self.total)
+        self.assertEqual(hand_probability(target), 370 / self.total)
     
     def test_straight(self):
-        target = self.straight.hit_area(5, 5, 5, 5, 6)
-        self.assertEqual(hand_probability(target), 4 / self.total)
+        # hit 5; miss, hit 5
+        target = self.straight.hit_area(5, 5, 5, 5, 13)
+        self.assertEqual(hand_probability(target), 356 / self.total)
         
     def test_flush(self):
+        # hit 0; miss, hit 0
         target = self.flush.hit_area(0, 0, 0, 0, 1)
-        self.assertEqual(hand_probability(target), 9 / self.total)
+        self.assertEqual(hand_probability(target), 756 / self.total)
         
     def test_straight_flush(self):
         target = self.straight_flush.hit_area((5, 0), (5, 0), (5, 0), (5, 0), (6, 0))
-        self.assertEqual(hand_probability(target), 1 / self.total)
+        self.assertEqual(hand_probability(target), 92 / self.total)
     
     def test_four_of_a_kind(self):
+        # hit 2; miss, hit 2; hit 3, hit 3
         target = self.four_kind.hit_area(2, 2, 2, 3, 3)
-        self.assertEqual(hand_probability(target), 2 / self.total)
+        self.assertEqual(hand_probability(target), 94 / self.total)

@@ -31,14 +31,7 @@ def _generate_hit_miss_patterns(target, area):
         p for p in permutations(hits_and_misses, yet_to_draw)
     ))
 
-#     for i, pattern in enumerate(patterns):
-#         # what is this doing?
-#         patterns[i] = list(pattern)
-#         pattern = list(reversed(pattern))
-#         if pattern.count('hit') > 0:
-#             for __ in range(pattern.index('hit')):
-#                 patterns[i].pop()
-
+    # TODO: test to see whether this matters
     # sorting here seems to keep straight probabilities from going wonky
     return sorted(patterns)
 
@@ -58,7 +51,8 @@ def _pattern_frequency(target, area, pattern):
         elif misses_left < 0 or target.destroyed:
             frequency = 0
         elif hit_or_miss == 'hit':
-            frequency *= target.areas[area]
+            # frequency *= target.areas[area]
+            frequency *= target.area_satisfies(area)
             hits_left -= 1
             # hits also affect the target area
             target = target.hit_area(area)
@@ -101,59 +95,57 @@ def _frequency(target):
 #   
 #     return frequency
 
-    hit_cache = {}
- 
-    for area in target.areas:
-        area_frequency = 0
-        pattern_cache = {}
-        
-        # another cache here to minimize repetition
-        hit_miss_patterns = _generate_hit_miss_patterns(target, area)
-            
-        for pattern in hit_miss_patterns:
-            pattern_frequency = _pattern_frequency(target, area, pattern)
-              
-#             pattern_key = len(pattern)
-            pattern_key = 0
-            for i, hit_or_miss in enumerate(pattern):
-                if hit_or_miss == 'hit':
-                    pattern_key = i + 1
-            if pattern_key not in pattern_cache:
-                pattern_cache[pattern_key] = pattern_frequency
-            else:
-                cache_value = pattern_cache[pattern_key]
-                if cache_value != pattern_frequency:
-                    pass
-                    # raise Exception("cache error! " + str(cache_value) + " != " + str(pattern_frequency))
-        
-            area_frequency += pattern_cache[pattern_key]
-  
-        # the cache here significantly reduces execution time
-        hit_key = target.area_hits(area)
-
-        if hit_key not in hit_cache:
-            hit_cache[hit_key] = area_frequency
-        else:
-            cache_value = hit_cache[hit_key]
-            if cache_value != area_frequency:
-                pass
-                # raise Exception("cache error! " + str(cache_value) + " != " + str(area_frequency))
-  
-        frequency += hit_cache[hit_key]
-  
-    return frequency
-
+#     hit_cache = {}
+#
 #     for area in target.areas:
 #         area_frequency = 0
-#  
+#         pattern_cache = {}
+#
+#         # another cache here to minimize repetition
 #         hit_miss_patterns = _generate_hit_miss_patterns(target, area)
-#          
+#
 #         for pattern in hit_miss_patterns:
-#             area_frequency += _pattern_frequency(target, area, pattern)
-#  
-#         frequency += area_frequency
-#  
-#     return frequency
+#             pattern_frequency = _pattern_frequency(target, area, pattern)
+#
+# #             pattern_key = len(pattern)
+#             pattern_key = 0
+#             for i, hit_or_miss in enumerate(pattern):
+#                 if hit_or_miss == 'hit':
+#                     pattern_key = i + 1
+#             if pattern_key not in pattern_cache:
+#                 pattern_cache[pattern_key] = pattern_frequency
+#             else:
+#                 cache_value = pattern_cache[pattern_key]
+#                 if cache_value != pattern_frequency:
+#                     pass
+#                     # raise Exception("cache error! " + str(cache_value) + " != " + str(pattern_frequency))
+#
+#             area_frequency += pattern_cache[pattern_key]
+#
+#         # the cache here significantly reduces execution time
+#         hit_key = target.area_hits(area)
+#
+#         if hit_key not in hit_cache:
+#             hit_cache[hit_key] = area_frequency
+#         else:
+#             cache_value = hit_cache[hit_key]
+#             if cache_value != area_frequency:
+#                 pass
+#                 # raise Exception("cache error! " + str(cache_value) + " != " + str(area_frequency))
+#
+#         frequency += hit_cache[hit_key]
+
+    for area in target.areas:
+        area_frequency = 0
+
+        hit_miss_patterns = _generate_hit_miss_patterns(target, area)
+
+        for pattern in hit_miss_patterns:
+            area_frequency += _pattern_frequency(target, area, pattern)
+
+        frequency += area_frequency
+
+    return frequency
 
 
 def _draw_combinations(target):
