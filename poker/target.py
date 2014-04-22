@@ -182,7 +182,14 @@ class TwoPairTarget(Target):
         target = self.copy()
         for rank in ranks:
             target.rank_areas[rank] -= self.hit_decrement
+            target.shots += 1
         return target
+
+    def area_distance(self, area_key):
+        cards_in_ranks = 0
+        for rank in area_key:
+            cards_in_ranks += self.rank_areas[rank]
+        return cards_in_ranks + self.needed - self.initial_size
 
     def area_satisfies(self, area_key):
         # When we get a pair in any rank area, we can ignore the rest of the

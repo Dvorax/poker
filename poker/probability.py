@@ -10,6 +10,7 @@ def hand_probability(target):
 
 
 def win_probability(community, pocket, players_left):
+    # probably a very bad approximation
     player_expected = _expected_score(community + pocket)
     other_expected = _expected_score(community)
 
@@ -27,13 +28,9 @@ def _generate_hit_miss_patterns(target, area):
     hits_and_misses = ['hit'] * int(hits_needed) + \
         ['miss'] * int(yet_to_draw - hits_needed)
 
-    patterns = list(set(
+    return list(set(
         p for p in permutations(hits_and_misses, yet_to_draw)
     ))
-
-    # TODO: test to see whether this matters
-    # sorting here seems to keep straight probabilities from going wonky
-    return sorted(patterns)
 
 
 def _pattern_frequency(target, area, pattern):

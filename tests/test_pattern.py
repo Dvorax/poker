@@ -16,20 +16,23 @@ class MultiplesPatternsTest(unittest.TestCase):
             Card(2, 0), Card(2, 1), Card(2, 2), Card(3, 0), Card(3, 1))
         self.quadruplet = Cards(Card(2, 0), Card(2, 1), Card(2, 2), Card(2, 3))
     
-    def test_is_satisfied_by(self):
+    def test_is_satisfied_by_pair(self):
         pattern = MultiplesPattern(2, 2)
         self.assertEqual(pattern.matches_with(self.one_pair), False)
         self.assertEqual(pattern.matches_with(self.two_pair), True)
-    
+
+    def test_is_satisfied_by_triplet(self):
         pattern = MultiplesPattern(3)
         self.assertEqual(pattern.matches_with(self.one_pair), False)
         self.assertEqual(pattern.matches_with(self.triplet), True)
-    
+
+    def test_is_satisfied_by_full_house(self):
         pattern = MultiplesPattern(3, 2)
         self.assertEqual(pattern.matches_with(self.two_pair), False)
         self.assertEqual(pattern.matches_with(self.triplet), False)
         self.assertEqual(pattern.matches_with(self.full_house), True)
 
+    def test_is_satisfied_by_quadruplet(self):
         pattern = MultiplesPattern(4)
         self.assertEqual(pattern.matches_with(self.triplet), False)
         self.assertEqual(pattern.matches_with(self.quadruplet), True)
@@ -79,28 +82,32 @@ class StraightOrFlushPatternsTest(unittest.TestCase):
         self.part_flush = Cards(Card(2, 1), Card(4, 1), Card(6, 1))
         self.part_both = Cards(Card(6, 0), Card(7, 0))
 
-    def test_is_satisfied_by(self):
+    def test_is_satisfied_by_straight(self):
         pattern = StraightOrFlushPattern(straight=True)
         self.assertEqual(pattern.matches_with(self.straight), True)
         self.assertEqual(pattern.matches_with(self.part_straight), False)
 
+    def test_is_satisfied_by_flush(self):
         pattern = StraightOrFlushPattern(flush=True)
         self.assertEqual(pattern.matches_with(self.flush), True)
         self.assertEqual(pattern.matches_with(self.part_flush), False)
 
+    def test_is_satisfied_by_straight_flush(self):
         pattern = StraightOrFlushPattern(straight=True, flush=True)
         self.assertEqual(pattern.matches_with(self.both), True)
         self.assertEqual(pattern.matches_with(self.part_both), False)
     
-    def test_distance(self):
+    def test_distance_straight(self):
         pattern = StraightOrFlushPattern(straight=True)
         self.assertEqual(pattern.distance(self.straight), 0)
         self.assertEqual(pattern.distance(self.part_straight), 1)
 
+    def test_distance_flush(self):
         pattern = StraightOrFlushPattern(flush=True)
         self.assertEqual(pattern.distance(self.flush), 0)
         self.assertEqual(pattern.distance(self.part_flush), 2)
 
+    def test_distance_straight_flush(self):
         pattern = StraightOrFlushPattern(straight=True, flush=True)
         self.assertEqual(pattern.distance(self.both), 0)
         self.assertEqual(pattern.distance(self.part_both), 3)
